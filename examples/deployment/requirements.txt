@@ -1,0 +1,20 @@
+# Fennec Framework
+fennec>=0.2.0
+
+# ASGI Server
+uvicorn[standard]>=0.24.0
+
+# Database drivers
+asyncpg>=0.29.0  # PostgreSQL
+motor>=3.3.0     # MongoDB
+
+# HTTP client
+httpx>=0.25.0
+
+# Security
+bcrypt>=4.1.0
+
+# Optional: Production enhancements
+gunicorn>=21.2.0  # Process manager
+python-multipart>=0.0.6  # Form data parsing
+python-jose[cryptography]>=3.3.0  # JWT

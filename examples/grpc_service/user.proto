@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package user;
+
+// User service definition
+service UserService {
+  // Get user by ID
+  rpc GetUser (GetUserRequest) returns (User);
+  
+  // Create new user
+  rpc CreateUser (CreateUserRequest) returns (User);
+  
+  // List users (server streaming)
+  rpc ListUsers (ListUsersRequest) returns (stream User);
+  
+  // Update users (client streaming)
+  rpc UpdateUsers (stream UpdateUserRequest) returns (UpdateUsersResponse);
+  
+  // Chat (bidirectional streaming)
+  rpc Chat (stream ChatMessage) returns (stream ChatMessage);
+}
+
+// Messages
+message GetUserRequest {
+  int32 id = 1;
+}
+
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+}
+
+message User {
+  int32 id = 1;
+  string username = 2;
+  string email = 3;
+  string created_at = 4;
+}
+
+message ListUsersRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  string username = 2;
+  string email = 3;
+}
+
+message UpdateUsersResponse {
+  int32 updated_count = 1;
+}
+
+message ChatMessage {
+  string user = 1;
+  string message = 2;
+  string timestamp = 3;
+}

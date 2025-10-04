@@ -1,0 +1,181 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fennec-api
+  labels:
+    app: fennec
+    component: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fennec
+      component: api
+  template:
+    metadata:
+      labels:
+        app: fennec
+        component: api
+    spec:
+      containers:
+      - name: api
+        image: fennec-api:latest
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: DEBUG
+          value: "false"
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fennec-secrets
+              key: secret-key
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: fennec-secrets
+              key: database-url
+        - name: REDIS_URL
+          value: "redis://redis:6379/0"
+        - name: RABBITMQ_URL
+          value: "amqp://guest:guest@rabbitmq:5672/"
+        - name: ENABLE_MONITORING
+          value: "true"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fennec-worker
+  labels:
+    app: fennec
+    component: worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fennec
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: fennec
+        component: worker
+    spec:
+      containers:
+      - name: worker
+        image: fennec-api:latest
+        command: ["python", "worker.py"]
+        env:
+        - name: DEBUG
+          value: "false"
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fennec-secrets
+              key: secret-key
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: fennec-secrets
+              key: database-url
+        - name: REDIS_URL
+          value: "redis://redis:6379/0"
+        - name: RABBITMQ_URL
+          value: "amqp://guest:guest@rabbitmq:5672/"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fennec-api
+  labels:
+    app: fennec
+    component: api
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: fennec
+    component: api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5672
+    targetPort: 5672
+    name: amqp
+  - port: 15672
+    targetPort: 15672
+    name: management
+  selector:
+    app: rabbitmq
+---
+apiVersion: networking.k8s.io/v1
+kind:Ingress
+metadata:
+  name: fennec-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - api.example.com
+    secretName: fennec-tls
+  rules:
+  - host: api.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fennec-api
+            port:
+              number: 8000

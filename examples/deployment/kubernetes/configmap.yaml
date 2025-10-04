@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fennec-config
+data:
+  ENABLE_ADMIN: "true"
+  ENABLE_CACHE: "true"
+  ENABLE_MONITORING: "true"
+  ENABLE_QUEUES: "true"
+  LOG_LEVEL: "INFO"
+  WORKERS: "4"

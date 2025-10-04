@@ -1,0 +1,21 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include pyproject.toml
+include setup.py
+include LOGO.txt
+include WELCOME.md
+include BRANDING.md
+
+recursive-include fennec *.py
+recursive-include examples *.py *.html *.md *.yml *.yaml *.conf *.json
+recursive-include docs *.md
+
+exclude .gitignore
+exclude .kiro
+recursive-exclude .kiro *
+recursive-exclude tests *
+recursive-exclude __pycache__ *
+recursive-exclude *.pyc
+recursive-exclude *.pyo
+recursive-exclude *.egg-info *
