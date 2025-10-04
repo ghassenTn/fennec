@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="fennec",
+    name="fennec-framework",
     version="0.3.0",
     author="Ghassen",
     author_email="ghassen.xr@gmail.com",
@@ -24,7 +24,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Application Frameworks",
         "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -34,6 +33,7 @@ setup(
         "Operating System :: OS Independent",
         "Framework :: AsyncIO",
     ],
+    license="MIT",
     keywords="web framework api rest async asgi websocket graphql microservices",
     python_requires=">=3.8",
     install_requires=[

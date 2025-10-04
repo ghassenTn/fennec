@@ -82,7 +82,7 @@ case $choice in
         print_success "Uploaded to TestPyPI"
         echo ""
         print_warning "Test installation with:"
-        echo "pip install --index-url https://test.pypi.org/simple/ --no-deps fennec-framework"
+        echo "pip install --index-url https://test.pypi.org/simple/ --no-deps fennec"
         ;;
     2)
         echo ""
@@ -93,7 +93,7 @@ case $choice in
             print_success "Uploaded to PyPI"
             echo ""
             print_success "Package published successfully!"
-            echo "View at: https://pypi.org/project/fennec-framework/"
+            echo "View at: https://pypi.org/project/fennec/"
             echo ""
             print_warning "Install with:"
             echo "pip install fennec-framework"
@@ -108,7 +108,7 @@ case $choice in
         print_success "Uploaded to TestPyPI"
         echo ""
         print_warning "Please test the package from TestPyPI:"
-        echo "pip install --index-url https://test.pypi.org/simple/ --no-deps fennec-framework"
+        echo "pip install --index-url https://test.pypi.org/simple/ --no-deps fennec"
         echo ""
         read -p "Press Enter after testing to continue to PyPI, or Ctrl+C to cancel..."
         echo ""
@@ -117,7 +117,7 @@ case $choice in
         print_success "Uploaded to PyPI"
         echo ""
         print_success "Package published successfully!"
-        echo "View at: https://pypi.org/project/fennec-framework/"
+        echo "View at: https://pypi.org/project/fennec/"
         ;;
     *)
         print_error "Invalid choice"

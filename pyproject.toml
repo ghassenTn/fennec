@@ -1,69 +1,8 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[project]
-name = "fennec"
-version = "0.3.0"
-description = "🦊 Fennec - A lightweight, fast, and agile Python backend framework"
-readme = "README.md"
-requires-python = ">=3.8"
-license = "MIT"
-authors = [
-    {name = "Ghassen", email = "ghassen.xr@gmail.com"}
-]
-keywords = ["web", "framework", "api", "rest", "async", "asgi", "websocket", "graphql", "microservices"]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Topic :: Software Development :: Libraries :: Application Frameworks",
-    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Operating System :: OS Independent",
-    "Framework :: AsyncIO",
-]
-
-dependencies = [
-    "uvicorn>=0.20.0",
-]
-
-[project.optional-dependencies]
-full = [
-    "bcrypt>=4.0.0",
-    "websockets>=10.0",
-    "redis>=4.5.0",
-    "prometheus-client>=0.16.0",
-    "psutil>=5.9.0",
-]
-dev = [
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.21.0",
-    "pytest-cov>=4.0.0",
-    "black>=23.0.0",
-    "flake8>=6.0.0",
-    "mypy>=1.0.0",
-]
-
-[project.urls]
-Homepage = "https://github.com/ghassenTn/fennec"
-Documentation = "https://github.com/ghassenTn/fennec#readme"
-Repository = "https://github.com/ghassenTn/fennec"
-"Bug Tracker" = "https://github.com/ghassenTn/fennec/issues"
-
-[project.scripts]
-fennec = "fennec.cli.commands:main"
-
-[tool.setuptools]
-packages = ["fennec"]
-
-[tool.setuptools.package-data]
-fennec = ["py.typed"]
+# Using setup.py for package configuration to avoid conflicts
 
 [tool.black]
 line-length = 100
